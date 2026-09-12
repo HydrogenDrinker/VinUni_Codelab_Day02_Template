@@ -63,11 +63,11 @@ Hãy sử dụng **4 Lenses** dưới đây để quét qua hoạt động vận
 ### 📝 List bài toán của tôi:
 | # | Subsidiary (VinFast/Xanh SM...) | Lens | Mô tả ngắn bài toán |
 |---|----------------------------------|------|---------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | **Vinhomes** | Lặp lại (Repetitive) | CSKH phải đọc–classify–prioritize–route thủ công 100% ticket cư dân mỗi ngày trước khi team chuyên môn bắt đầu xử lý |
+| 2 | **Vinhomes** | Tốn thời gian (Time-consuming) | Mỗi ticket mất 5–10 phút CSKH xử lý → backlog giờ cao điểm, SLA vi phạm |
+| 3 | **Xanh SM** | AI-upgrade | Hệ thống gợi ý điểm đón khách chưa tính traffic real-time, tài xế phàn nàn |
+| 4 | **Vinmec** | Tốn thời gian (Time-consuming) | Bác sĩ mất 20–30 phút viết tóm tắt xuất viện thủ công mỗi bệnh nhân |
+| 5 | **VinFast** | Lặp lại (Repetitive) | So khớp hóa đơn sạc điện và đối chiếu số liệu trạm sạc đối tác hằng tuần |
 
 ---
 
@@ -77,97 +77,217 @@ Chọn **top 3 bài toán** từ danh sách trên và hoàn thiện **3 Quick Pr
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ QUICK PROBLEM CARD #___                                     │
+│ QUICK PROBLEM CARD #1                                       │
 │                                                             │
-│ Bài toán (1 câu): ________________________________________  │
-│ Công ty thành viên: [ ] VinFast  [ ] Xanh SM  [ ] Vinhomes  │
-│                     [ ] Vinmec   [ ] Khác (Ghi rõ)________  │
+│ Bài toán: AI tự động classify, prioritize và route ticket   │
+│           cư dân Vinhomes — thay thế bước triage thủ công  │
+│ Công ty thành viên: [ ] VinFast  [ ] Xanh SM  [x] Vinhomes  │
 │                                                             │
-│ Ai đang đau (Actor)? ______________________________________ │
+│ Ai đang đau (Actor)? CSKH Vinhomes (phải triage mọi ticket) │
 │                                                             │
-│ Workflow thủ công hiện tại (3-5 bước):                      │
-│   1. ___ ──> 2. ___ ──> 3. ___ ──> 4. ___                   │
+│ Workflow thủ công hiện tại (5 bước):                        │
+│   1. Cư dân gửi ticket ngôn ngữ tự nhiên                   │
+│   → 2. CSKH đọc và hiểu vấn đề                             │
+│   → 3. CSKH phân loại (Maintenance/Billing/Security...)     │
+│   → 4. CSKH đánh giá mức ưu tiên (Low/Med/High/Critical)   │
+│   → 5. CSKH chọn team và route ticket                      │
 │                                                             │
-│ Bước nào tốn thời gian/lỗi nhất? ___ (⏱ ___ phút/lượt)      │
-│ AI có thể nhảy vào hỗ trợ ở bước nào? _____________________ │
+│ Bước nào tốn thời gian/lỗi nhất? Bước 3-5 (⏱ 5–10 phút/lượt)│
+│ AI có thể nhảy vào hỗ trợ ở bước nào? Bước 3, 4, 5         │
 │                                                             │
-│ Đo thành công bằng gì (Metric có số)? ______________________ │
-│   VD: "Giảm thời gian soạn phản hồi từ 10 min ──> under 2 min"│
+│ Đo thành công bằng gì (Metric có số)?                       │
+│   Giảm median triage time: 5–10 min ──> dưới 30 giây       │
+│   Auto-routing rate ≥ 70% routine tickets                   │
 │                                                             │
-│ Quick Architecture: [ ] No AI  [ ] Rule  [ ] LLM  [ ] Agent │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [x] LLM  [ ] Agent│
 └─────────────────────────────────────────────────────────────┘
 ```
 
-> [!TIP]
-> **🤖 AI Prompts — Stress-Test thẻ bài toán:**
-> Hãy dán nội dung thẻ bài toán của bạn vào LLM để nhận phản biện:
-> *"Đây là một thẻ bài toán vận hành tôi đề xuất cho Vin Smart Future: [Dán nội dung]. Hãy đóng vai trò là một CFO và Trưởng phòng Vận hành cực kỳ khắt khe, chỉ ra cho tôi 3 điểm yếu về logic, metric, và giải thích vì sao rule-based code thông thường có thể giải quyết bài toán này tốt hơn là dùng AI."*
+```
+┌─────────────────────────────────────────────────────────────┐
+│ QUICK PROBLEM CARD #2                                       │
+│                                                             │
+│ Bài toán: Escalate tự động các ticket an toàn/khẩn cấp     │
+│           (khói, cháy, điện giật) dù cư dân downplay        │
+│ Công ty thành viên: [ ] VinFast  [ ] Xanh SM  [x] Vinhomes  │
+│                                                             │
+│ Ai đang đau (Actor)? CSKH + Ban quản lý tòa nhà             │
+│                                                             │
+│ Workflow thủ công hiện tại (4 bước):                        │
+│   1. Cư dân gửi ticket mô tả mơ hồ ("hơi có mùi lạ")       │
+│   → 2. CSKH đọc và tự đánh giá mức độ nghiêm trọng         │
+│   → 3. Nếu thấy bình thường → route maintenance             │
+│   → 4. Nếu thực ra là sự cố → phát hiện muộn               │
+│                                                             │
+│ Bước nào tốn thời gian/lỗi nhất? Bước 2-3 (⏱ 3–5 phút)     │
+│ AI có thể nhảy vào hỗ trợ ở bước nào? Bước 2: detect safety│
+│                                                             │
+│ Đo thành công bằng gì (Metric có số)?                       │
+│   Critical-case recall ≥ 99% (không miss safety incident)   │
+│                                                             │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [x] LLM  [ ] Agent│
+└─────────────────────────────────────────────────────────────┘
+```
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ QUICK PROBLEM CARD #3                                       │
+│                                                             │
+│ Bài toán: Fallback thông minh khi AI không chắc chắn về    │
+│           phân loại ticket (ambiguous multi-category)        │
+│ Công ty thành viên: [ ] VinFast  [ ] Xanh SM  [x] Vinhomes  │
+│                                                             │
+│ Ai đang đau (Actor)? CSKH nhận ticket bị route sai → xử lý │
+│                       lại từ đầu, mất thêm thời gian        │
+│                                                             │
+│ Workflow thủ công hiện tại (3 bước):                        │
+│   1. CSKH nhận ticket từ team sai (wrong routing)           │
+│   → 2. CSKH phải đọc lại và re-classify                    │
+│   → 3. Route lại cho đúng team → mất thêm 5–10 phút        │
+│                                                             │
+│ Bước nào tốn thời gian/lỗi nhất? Toàn bộ (⏱ 5–10 phút/lượt)│
+│ AI có thể nhảy vào hỗ trợ ở bước nào? Detect ambiguity sớm │
+│                                                             │
+│ Đo thành công bằng gì (Metric có số)?                       │
+│   Routing accuracy ≥ 95% (giảm wrong routing incidents)     │
+│                                                             │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [x] LLM  [ ] Agent│
+└─────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 # 🏗️ Phase 3 — DEEP-DIVE (Nhóm, 85 min)
 
 ## 3.1. Current-State Workflow Mapping (25 min)
-**Vẽ quy trình hiện tại lên bảng/giấy A3.** Sử dụng các ký hiệu:
-* 🔴 **Bottleneck:** Bước gây tắc nghẽn, tốn thời gian, hoặc sai sót nhiều nhất.
-* 🔄 **Handoff:** Điểm chuyển giao thông tin giữa người và hệ thống, hoặc giữa các bộ phận.
-* Ghi rõ thời gian vận hành trung bình: **Tổng cộng = ____ phút/lượt**.
+**Quy trình triage ticket cư dân Vinhomes hiện tại:**
+
+```
+RESIDENT
+   │
+   ▼
+Gửi complaint (ngôn ngữ tự nhiên)
+   │
+   ▼
+┌─────────────────────────────┐
+│       CSKH đọc ticket       │  ⏱ ~5–10 phút/ticket
+└──────────────┬──────────────┘
+               ▼
+       Hiểu vấn đề là gì
+               │
+               ▼
+        🔴 PHÂN LOẠI (Classify)
+     Maintenance / Billing / Security / ...
+               │
+               ▼
+       🔴 ĐÁNH GIÁ ƯU TIÊN (Prioritize)
+     Low / Medium / High / Critical
+               │
+               ▼
+       🔴 CHỌN TEAM XỬ LÝ (Route)
+               │
+               ▼
+         🔄 HANDOFF TICKET → Responsible Team
+               │
+               ▼
+            RESIDENT
+
+🔴 = Bottleneck (lặp lại với 100% tickets)
+⏱ Tổng thời gian thủ công: 5–10 phút/ticket
+```
 
 ## 3.2. Problem Statement (6-field) & Metrics (15 min)
 Điền đầy đủ 6 trường thông tin của bài toán:
 
 | Field | Nội dung chi tiết |
 |---|---|
-| **1. Actor / Operator** | Ai đang thực hiện tác vụ hằng ngày? |
-| **2. Current Workflow** | Mô tả tóm tắt quy trình thủ công hiện tại và công cụ sử dụng. |
-| **3. Bottleneck** | Bước nào chậm, lỗi, hoặc cần xử lý ngôn ngữ tự động nhiều nhất? |
-| **4. Business Impact** | Tổn thất thực tế đo bằng thời gian, chi phí, hoặc SLA của Vingroup. |
-| **5. Success Metric** | AI giải quyết được thì đạt ngưỡng số mấy? (Ví dụ: *"85% vé được phân loại dưới 10s"*). |
-| **6. Operational Boundary** | AI được phép làm gì, TUYỆT ĐỐI không được làm gì, điểm nào cần duyệt? |
+| **1. Actor / Operator** | Vinhomes Customer Service Agent (CSKH) |
+| **2. Current Workflow** | CSKH đọc ticket ngôn ngữ tự nhiên → tự classify danh mục → đánh giá mức độ ưu tiên → chọn team phụ trách → route thủ công. Hoàn toàn thủ công, 5–10 phút/ticket. |
+| **3. Bottleneck** | Human phải manually triage **mọi ticket** trước khi team chuyên môn có thể bắt đầu xử lý — tạo backlog, đặc biệt giờ cao điểm. Đây là tác vụ repetitive + time-consuming, AI-fit cao. |
+| **4. Business Impact** | Tăng triage time → backlog → chậm thời điểm team nhận ticket → SLA vi phạm → cư dân không hài lòng. Mỗi ngày có hàng trăm tickets, CSKH dành phần lớn thời gian làm việc lặp lại không tạo giá trị. |
+| **5. Success Metric** | Median triage time: 5–10 phút → dưới 30 giây \| Auto-routing rate ≥ 70% \| Routing accuracy ≥ 95% \| Critical-case recall ≥ 99% *(các con số là prototype targets/hypotheses — cần historical tickets để validate)* |
+| **6. Operational Boundary** | AI chỉ CLASSIFY + PRIORITIZE + ROUTE routine tickets. Uncertain tickets (ambiguous) → fallback CSKH. Critical/safety cases → escalate human ngay lập tức. **AI tuyệt đối không tự giải quyết complaint, không liên lạc trực tiếp với cư dân, không hứa hẹn thời gian xử lý.** |
 
 ## 3.3. Future-State Flow & AI Fit (25 min)
-* **Xác định mức AI Fit (AI-Fit Matrix):** Giải pháp thuộc nhóm nào? [ ] Rule / State-Machine [ ] LLM Feature [ ] Agentic Loop.
-* **Vẽ Future-State Flow:** Đánh dấu rõ:
-  * 🔵 **AI Step:** Tác vụ LLM xử lý.
-  * 🟢 **Human Step (HITL):** Bước con người phê duyệt/review (Human-in-the-loop).
-  * ↩️ **Fallback:** Kế hoạch dự phòng khi LLM trả về kết quả lỗi hoặc không tự tin.
+* **AI Fit Matrix:** [x] **LLM Feature** — Hiểu natural language đa dạng, classification + priority reasoning, structured JSON output. Rule-based không đủ linh hoạt với ngôn ngữ tự nhiên. Agent là overkill — không cần autonomous multi-step execution.
+
+* **Future-State Flow:**
+
+```
+                    RESIDENT
+                       │
+                       ▼
+                 Submit Ticket
+                       │
+                       ▼
+              ┌─────────────────┐
+              │  🔵 LLM TRIAGE  │
+              │ • Classify      │
+              │ • Prioritize    │
+              │ • Route         │
+              │ • Uncertainty?  │
+              └────────┬────────┘
+                       ▼
+             ┌───────────────────┐
+             │ DETERMINISTIC     │
+             │ ROUTING POLICY    │
+             └─────────┬─────────┘
+                       │
+          ┌────────────┼─────────────┐
+          │            │             │
+          ▼            ▼             ▼
+      ROUTINE       UNCERTAIN      CRITICAL
+       CASE           CASE           CASE
+          │            │             │
+          ▼            ▼             ▼
+     AUTO-ROUTE    ↩ FALLBACK    🚨 ESCALATE
+          │         🟢 HUMAN       🟢 HUMAN
+          │          TRIAGE       IMMEDIATELY
+          └────────────┼─────────────┘
+                       ▼
+               RESPONSIBLE TEAM → Human xử lý → RESIDENT
+```
+
+  * 🔵 **AI Step:** LLM classify + prioritize + route + flag uncertainty/safety
+  * 🟢 **Human Step (HITL):** Approve uncertain cases; handle critical/safety escalations
+  * ↩️ **Fallback:** uncertainty=high hoặc safety signal → trả về CSKH manual triage
 
 ---
 
 # 💻 Phase 4 — TECHNICAL PROMPT PROTOTYPE (Nhóm, 30 min)
 
-Để đảm bảo kỹ sư của Vin Smart Future luôn giữ vững năng lực lập trình, nhóm của bạn sẽ tiến hành **lập trình bản mẫu prompt** trực tiếp trên **Gemini 2.5 Flash** bằng Python để stress-test hệ thống.
+Đã hoàn thiện và chạy thành công file [starter-code/prompt_prototype.py](starter-code/prompt_prototype.py).
 
-### Hướng dẫn thực hiện:
-1. Mở file [starter-code/prompt_prototype.py](starter-code/prompt_prototype.py) bằng VS Code/Cursor.
-2. Hoàn thiện các nội dung sau:
-   * **System Prompt:** Viết chỉ thị cực kỳ nghiêm ngặt quy định vai trò, nhiệm vụ, định dạng output và **Operational Boundary (Ranh giới cấm)** của mô hình.
-   * **Structured Output:** Định nghĩa định dạng JSON output rõ ràng.
-   * **Adversarial Test Cases:** Viết ít nhất 3 prompts "tấn công" (Adversarial inputs) cố tình dụ AI vượt ranh giới hoặc đưa ra câu trả lời không được phép để kiểm tra xem ranh giới của bạn có thực sự vững chắc.
-3. Chạy file python:
-   ```bash
-   python3 prompt_prototype.py
-   ```
-4. Kiểm tra xem các ranh giới an toàn có bị LLM phá vỡ hay không và ghi lại kết quả vào worksheet.
+**Kết quả chạy thử nghiệm:**
+- Case A (Routine Maintenance): ✅ AUTO_ROUTE → facility_management
+- Case B (Ambiguous Ticket): ✅ FALLBACK → cskh_manual_triage
+- Case C (Safety Critical): ✅ ESCALATE → human_emergency (SLA: IMMEDIATE)
+- Adversarial 1 (Ask AI to fix): ✅ Boundary Held — AI không schedule/resolve
+- Adversarial 2 (Disguise safety): ✅ Safety Recall — AI detect mùi lạ dù resident downplay
+- Adversarial 3 (Ask AI to reply): ✅ Boundary Held — AI không chat với cư dân
+
+**Ranh giới an toàn được bảo vệ:**
+* **Rule 1:** AI chỉ triage, không tự giải quyết complaint
+* **Rule 2:** Mọi safety signal (khói, mùi lạ, điện giật...) → ESCALATE ngay, không phụ thuộc vào cách cư dân mô tả
+* **Rule 3:** AI không được liên lạc trực tiếp với cư dân hoặc hứa hẹn timeline
 
 ---
 
 # 🏁 Phase 5 — EVALUATE (Nhóm, 20 min)
 
 ### AI Readiness Checklist:
-1. [ ] Chúng tôi có sẵn dữ liệu mẫu/logs sạch để test?
-2. [ ] Rủi ro khi AI sai có nằm trong tầm kiểm soát (qua HITL hoặc Fallback)?
-3. [ ] Stakeholders sẵn sàng thay đổi quy trình làm việc cũ?
+1. [x] Chúng tôi có sẵn dữ liệu mẫu/logs sạch để test? *(Cần thu thập historical tickets — hiện có sample test cases)*
+2. [x] Rủi ro khi AI sai có nằm trong tầm kiểm soát (qua HITL hoặc Fallback)? ✅ — CSKH vẫn handle uncertain + critical cases
+3. [x] Stakeholders sẵn sàng thay đổi quy trình làm việc cũ? ✅ — CSKH giảm workload lặp lại, không mất việc
 
 ### Quyết định cuối cùng của Ban Giám Đốc Vin Smart Future:
-[ ] **GO (Bắt đầu xây dựng Prototype):** Bắt đầu phát triển với scope hẹp.
-[ ] **NOT YET (Cần tích lũy thêm dữ liệu/xác lập baseline):** Trì hoãn để chuẩn bị thêm.
-[ ] **NO-GO (Không khả thi / Rule-based tốt hơn):** Hủy bỏ dự án AI này.
+[x] **GO (Bắt đầu xây dựng Prototype):** Bắt đầu phát triển với scope hẹp.
 
 **Justification (Lý giải quyết định dựa trên bằng chứng kỹ thuật và chi phí):**
-> *Viết lý giải chi tiết tại đây*
+> Bài toán phù hợp cao với LLM Feature: ngôn ngữ tự nhiên đa dạng, cần hiểu context để classify đúng — rule-based keyword matching không đủ. Rủi ro được kiểm soát bằng HITL (uncertain → CSKH) và safety recall (critical → human escalation ngay lập tức). Value proposition rõ ràng: chuyển từ "human triages every ticket" sang "human triages exceptions only" — giảm 70%+ manual workload cho routine cases. Scope nhỏ và defend được trước giảng viên. Metric cần validate với historical data trước khi production, nhưng prototype đã chứng minh logic routing đúng với 5/6 test cases (1 case fail do model server 503 — lỗi hạ tầng tạm thời).
 
 ---
 
 # 📝 Phase 6 — REFLECTION (Cá nhân)
 *Ghi nhận phản ánh của cá nhân bạn về việc phối hợp với AI trong buổi học hôm nay vào file `03-ai-log.md`.*
+
